@@ -1,3 +1,5 @@
+import os
+os.environ['QT_PLUGIN_PATH'] = '/Users/amineelkassbi/opt/anaconda3/lib/python3.9/site-packages/PyQt6/Qt6/plugins'
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QStackedLayout, QHBoxLayout, QPushButton, QVBoxLayout, QLabel, QLineEdit, QMessageBox
 from PyQt6.QtCore import Qt
