@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2024-04-15" view-index="0" gantt-divider-location="421" resource-divider-location="300" version="3.0.2914" locale="fr_FR">
+    <description/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="198" order="0"/>
+        <field id="tpd4" name="Date de début" width="75" order="1"/>
+        <field id="tpd5" name="Date de fin" width="74" order="2"/>
+        <field id="tpd13" name="Ressources" width="20" order="3"/>
+        <field id="tpc0" name="Responsables" width="50" order="4"/>
+        <option id="taskLabelUp" value="name"/>
+        <option id="taskLabelDown" value="length"/>
+        <option id="taskLabelLeft" value="advancement"/>
+        <option id="taskLabelRight" value="taskDates"/>
+        <option id="color.recent">
+            <![CDATA[#ff6600 #009966 #ff9999 #ff9900 #ffff00]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="210" order="0"/>
+        <field id="1" name="Rôle par défaut" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+            <taskproperty id="tpc0" name="Responsables" type="custom" valuetype="text" defaultvalue="Killian"/>
+        </taskproperties>
+        <task id="0" name="Assimilation du sujet &amp; Documentation" color="#8cb6ce" meeting="false" start="2024-03-25" duration="7" complete="100" thirdDate="2024-06-12" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="false">
+            <depend id="1" type="2" difference="30" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="Killian - Lory - Amine"/>
+        </task>
+        <task id="1" name="Protocoles de communication &amp; connexion-déconnexion" color="#ff9900" meeting="false" start="2024-05-15" duration="3" complete="100" thirdDate="2024-03-20" thirdDate-constraint="0" priority="2" expand="false">
+            <depend id="3" type="2" difference="8" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="Lory"/>
+            <task id="12" name="Connexion &amp; Déconnexion WIFI" color="#8cb6ce" meeting="false" start="2024-05-15" duration="2" complete="100" thirdDate="2024-05-15" thirdDate-constraint="0" expand="true">
+                <depend id="2" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="2" name="Tests de la communication" color="#009966" meeting="false" start="2024-05-17" duration="1" complete="100" thirdDate="2024-04-10" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="3" name="Création de l'interface et déplacement" color="#ff9900" meeting="false" start="2024-05-30" duration="2" complete="100" thirdDate="2024-04-24" thirdDate-constraint="0" priority="2" expand="false">
+            <depend id="6" type="2" difference="0" hardness="Strong"/>
+            <depend id="13" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="Killian - Amine"/>
+            <task id="4" name="Layout principal et backgroung" color="#8cb6ce" meeting="false" start="2024-05-30" duration="1" complete="100" thirdDate="2024-04-24" thirdDate-constraint="0" priority="2" expand="true">
+                <depend id="6" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="5" name="Avancer, reculer, tourner à gauche et à droite" color="#8cb6ce" meeting="false" start="2024-05-30" duration="1" complete="100" thirdDate="2024-04-24" thirdDate-constraint="0" priority="2" expand="true">
+                <depend id="8" type="2" difference="0" hardness="Strong"/>
+                <customproperty taskproperty-id="tpc0" value="Killian - Amine"/>
+            </task>
+            <task id="8" name="Tests" color="#009966" meeting="false" start="2024-05-31" duration="1" complete="100" thirdDate="2024-03-11" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Killian - Lory - Amine"/>
+            </task>
+        </task>
+        <task id="6" name="Récupération données capteurs" color="#8cb6ce" meeting="false" start="2024-06-04" duration="3" complete="100" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
+            <depend id="14" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="Killian"/>
+            <task id="9" name="Récupération batterie" color="#8cb6ce" meeting="false" start="2024-06-04" duration="1" complete="100" thirdDate="2024-02-12" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Killian - Amine"/>
+            </task>
+            <task id="10" name="Détection obstacle" color="#8cb6ce" meeting="false" start="2024-06-04" duration="2" complete="100" thirdDate="2024-02-12" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Killian"/>
+            </task>
+            <task id="7" name="Capteur couleur" color="#8cb6ce" meeting="false" start="2024-06-05" duration="2" complete="100" thirdDate="2024-03-11" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Killian"/>
+            </task>
+            <task id="11" name="Tests" color="#009966" meeting="false" start="2024-06-04" duration="3" complete="100" thirdDate="2024-05-03" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="14" name="Gestion séquentielle - Marty *2" color="#ff6600" meeting="false" start="2024-06-12" duration="3" complete="0" thirdDate="2024-04-29" thirdDate-constraint="0" expand="false">
+            <customproperty taskproperty-id="tpc0" value="Tous"/>
+            <task id="15" name="Labyrinthe" color="#8cb6ce" meeting="false" start="2024-06-12" duration="1" complete="0" thirdDate="2024-04-29" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Tous"/>
+            </task>
+            <task id="17" name="Priorité déplacement" color="#8cb6ce" meeting="false" start="2024-06-13" duration="1" complete="0" thirdDate="2024-04-29" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Tous"/>
+            </task>
+            <task id="16" name="Détection robot et célébration" color="#8cb6ce" meeting="false" start="2024-06-14" duration="1" complete="0" thirdDate="2024-04-29" thirdDate-constraint="0" expand="true"/>
+            <task id="19" name="Tests" color="#009966" meeting="false" start="2024-06-12" duration="3" complete="0" thirdDate="2024-05-13" thirdDate-constraint="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Tous"/>
+            </task>
+        </task>
+        <task id="13" name="Pilotage du robot" color="#ff9999" meeting="false" start="2024-06-03" duration="12" complete="80" thirdDate="2024-05-02" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="Tous"/>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
