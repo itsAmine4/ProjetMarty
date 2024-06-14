@@ -72,7 +72,7 @@ class Detection:
 
     def start_color_detection(self):
         if self.marty:
-            mon_thread1 = threading.Thread(target=self.act_on_color1, args=(self.get_color_name(),))
+            mon_thread1 = threading.Thread(target=self.act_on_color1, args=(self.get_color_value('left'),))
             mon_thread1.start()
 
     def MazeColorDetect(self):
@@ -103,7 +103,6 @@ class Detection:
     def get_color_value(self, position):
         if self.marty:
             try:
-                # Obtenez la valeur du capteur de couleur à la position spécifiée
                 color_value = self.marty.get_color_sensor_reading(position)
                 return color_value
             except Exception as e:
