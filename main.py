@@ -52,6 +52,7 @@ class MartyControllerApp(MartyWidget):
             self.color_timer.timeout.connect(self.detection.detect_color)
             self.color_timer.start(1000)
 
+
         except Exception as e:
             QMessageBox.critical(self, "Connexion", f"Échec de la connexion à Marty: {str(e)}")
 
