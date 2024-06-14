@@ -1,4 +1,3 @@
-# mouvements_emotions.py
 class MovementsEmotions:
     def __init__(self, marty):
         self.marty = marty

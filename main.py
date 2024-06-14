@@ -1,6 +1,5 @@
-# main.py
 import sys
-from PyQt6.QtWidgets import QApplication, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMessageBox, QPushButton
 from PyQt6.QtCore import QTimer
 from martypy import Marty
 from widget import MartyWidget
@@ -26,6 +25,15 @@ class MartyControllerApp(MartyWidget):
         self.dance_button.clicked.connect(self.dance)
         self.celebrate_button.clicked.connect(self.celebrate)
 
+        # Ajoutez des boutons pour les nouvelles fonctionnalités
+        self.start_color_detection_button = QPushButton('Start Color Detection', self)
+        self.start_color_detection_button.clicked.connect(self.start_color_detection)
+        self.layout().addWidget(self.start_color_detection_button)
+
+        self.maze_color_detect_button = QPushButton('Maze Color Detect', self)
+        self.maze_color_detect_button.clicked.connect(self.maze_color_detect)
+        self.layout().addWidget(self.maze_color_detect_button)
+
     def connect_to_marty(self):
         ip_address = self.ip_entry.text()
         try:
@@ -39,10 +47,10 @@ class MartyControllerApp(MartyWidget):
             self.timer.start(1000)
 
             self.obstacle_timer.timeout.connect(self.detection.check_for_obstacles)
-            self.obstacle_timer.start(5000)
+            self.obstacle_timer.start(1000)
 
             self.color_timer.timeout.connect(self.detection.detect_color)
-            self.color_timer.start(5000)
+            self.color_timer.start(1000)
 
         except Exception as e:
             QMessageBox.critical(self, "Connexion", f"Échec de la connexion à Marty: {str(e)}")
@@ -78,6 +86,13 @@ class MartyControllerApp(MartyWidget):
     def set_emotion(self):
         emotion = self.emotion_entry.text()
         self.movements_emotions.set_emotion(emotion)
+
+    # Ajoutez les nouvelles fonctions ici
+    def start_color_detection(self):
+        self.detection.start_color_detection()
+
+    def maze_color_detect(self):
+        self.detection.MazeColorDetect()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

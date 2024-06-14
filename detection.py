@@ -1,3 +1,5 @@
+import threading  
+
 class Detection:
     def __init__(self, marty, battery_label, obstacle_label, color_label):
         self.marty = marty
@@ -24,52 +26,86 @@ class Detection:
             except Exception as e:
                 print(f"Erreur lors de la détection des obstacles : {str(e)}")
 
-    def detect_color(self):
+    def act_on_color1(self, color):
+        if color == "BleuC":
+            self.marty.eyes('wiggle')
+            self.marty.walk(num_steps=6, step_length=30, move_time=2000, blocking=True)
+        elif color == "Rouge":
+            self.marty.dance()
+            self.marty.stop()
+        elif color == "Jaune":
+            self.marty.walk(num_steps=4, step_length=-30, move_time=2000, blocking=True)
+        elif color == "Vert":
+            self.marty.walk(num_steps=6, step_length=30, move_time=2000, blocking=True)
+        elif color == "BleuM":
+            self.marty.sidestep('right', steps=6, step_length=35, move_time=2000, blocking=True)
+            self.marty.stand_straight()
+        elif color == "Rose":
+            self.marty.sidestep('left', steps=6, step_length=35, move_time=2000, blocking=True)
+            self.marty.stand_straight()
+
+    def detectMazeColors(self):
+        directions1 = []
+        for _ in range(2):
+            detected_color = self.get_color_name()
+            print("Couleur détectée", detected_color)
+            directions1.append(detected_color)
+            self.marty.walk(num_steps=3, step_length=25, move_time=2000, blocking=True)
+        self.marty.sidestep('right', steps=4, step_length=25, move_time=2000, blocking=True)
+        detected_color = self.get_color_name()
+        directions1.append(detected_color)
+        print("Couleur détectée", detected_color)
+        for _ in range(2):
+            self.marty.walk(num_steps=3, step_length=-25, move_time=2000, blocking=True)
+            detected_color = self.get_color_name()
+            print("Couleur détectée", detected_color)
+            directions1.append(detected_color)
+        self.marty.sidestep('right', steps=4, step_length=25, move_time=2000, blocking=True)
+        detected_color = self.get_color_name()
+        directions1.append(detected_color)
+        print("Couleur détectée", detected_color)
+        for _ in range(2):
+            detected_color = self.get_color_name()
+            print("Couleur détectée", detected_color)
+            directions1.append(detected_color)
+            self.marty.walk(num_steps=4, step_length=25, move_time=2000, blocking=True)
+
+    def start_color_detection(self):
+        if self.marty:
+            mon_thread1 = threading.Thread(target=self.act_on_color1, args=(self.get_color_name(),))
+            mon_thread1.start()
+
+    def MazeColorDetect(self):
+        matrice1, matrice2 = None, None
+        if self.marty:
+            mon_thread1 = threading.Thread(target=self.detectMazeColors)
+            mon_thread1.start()
+            matrice1 = self.detectMazeColors()
+        if self.marty:
+            mon_thread2 = threading.Thread(target=self.detectMazeColors)
+            mon_thread2.start()
+            matrice2 = self.detectMazeColors()
+        if matrice1 and matrice2:
+            self.merge_and_act_on_colors(matrice1, matrice2)
+
+    def merge_and_act_on_colors(self, matrice1, matrice2):
+        merged_colors = []
+        for color1, color2 in zip(matrice1, matrice2):
+            if color1 != "noir":
+                merged_colors.append(color1)
+            elif color2 != "noir":
+                merged_colors.append(color2)
+
+        for color in merged_colors:
+            if self.marty:
+                self.act_on_color1(color)
+
+    def get_color_value(self, position):
         if self.marty:
             try:
-                position = "left"
-                color = self.marty.get_ground_sensor_reading('left')
-                lcolor = 'unknown'  # Initialisation de la variable lcolor
-                if 15 <= color <= 17:
-                    lcolor = 'black'
-                elif 19 <= color <= 22:
-                    lcolor = 'darkblue'
-                    self.marty.sidestep(direction='right', num_steps=3, step_length=50, move_time=1000, blocking=True)
-                elif 30 <= color <= 34:
-                    lcolor = 'green'
-                    self.marty.walk(num_steps=4, step_length=40, move_time=1500, blocking=True)
-                elif 52 <= color <= 55:
-                    lcolor = 'skyblue'
-                    self.marty.walk(num_steps=4, step_length=40, move_time=1500, blocking=True)
-                elif 82 <= color <= 85:
-                    lcolor = 'red'
-                    self.marty.stop()
-                elif 95 <= color <= 98:
-                    lcolor = 'pink'
-                    self.marty.sidestep(direction='right', num_steps=3, step_length=50, move_time=1000, blocking=True)
-                elif 110 <= color <= 118:
-                    lcolor = 'white'
-                elif 180 <= color <= 185:
-                    lcolor = 'yellow'
-                    self.marty.walk(num_steps=4, step_length=-25, move_time=1500, blocking=True)
-                self.color_label.setText(f"Couleur détectée ({position}) : {lcolor}")
+                # Obtenez la valeur du capteur de couleur à la position spécifiée
+                color_value = self.marty.get_color_sensor_reading(position)
+                return color_value
             except Exception as e:
                 print(f"Erreur lors de la détection de la couleur : {str(e)}")
-                
-    def color_to_hex(self, color_name):
-        # Dictionnaire de conversion des noms de couleurs en codes hexadécimaux
-        color_hex_map = {
-            'red': '#FF0000',
-            'green': '#00FF00',
-            'blue': '#0000FF',
-            'yellow': '#FFFF00',
-            'cyan': '#00FFFF',
-            'magenta': '#FF00FF',
-            'black': '#000000',
-            'white': '#FFFFFF',
-            'orange': '#FFA500',
-            'purple': '#800080',
-            'pink': '#FFC0CB',
-            # Ajoutez d'autres couleurs si nécessaire
-        }
-        return color_hex_map.get(color_name.lower(), '#000000')
+                return None

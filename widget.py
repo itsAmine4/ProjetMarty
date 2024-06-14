@@ -1,13 +1,13 @@
-# widget.py
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QLineEdit, QMessageBox, QSizePolicy
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QLineEdit, QComboBox, QSizePolicy
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QPixmap
+from detection import Detection
 
 class MartyWidget(QWidget):
     def __init__(self):
         super().__init__()
-
+        self.detection = Detection(marty=None, battery_label=None, obstacle_label=None, color_label=None)
         self.initUI()
 
     def initUI(self):
@@ -17,8 +17,8 @@ class MartyWidget(QWidget):
         main_layout = QVBoxLayout(self)
 
         # Ajouter un QLabel pour l'image d'arrière-plan
-        self.background_label = QLabel(self)  # Utilisation de self pour rendre l'attribut accessible dans toute la classe
-        self.background_pixmap = QPixmap('images/background2.png')
+        self.background_label = QLabel(self)
+        self.background_pixmap = QPixmap('images/backgrounds.png')
         self.background_label.setPixmap(self.background_pixmap)
         self.background_label.setScaledContents(True)
         self.background_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
@@ -39,8 +39,8 @@ class MartyWidget(QWidget):
         emotion_layout.addWidget(self.emotion_entry)
 
         self.set_emotion_button = QPushButton()
-        self.set_emotion_button.setIcon(QIcon('images/emotion_image.png'))
-        self.set_emotion_button.setIconSize(QSize(40, 40))
+        self.set_emotion_button.setIcon(QIcon('images/emotion.png'))
+        self.set_emotion_button.setIconSize(QSize(20, 20))
         emotion_layout.addWidget(self.set_emotion_button)
 
         content_layout.addLayout(emotion_layout)
@@ -125,10 +125,20 @@ class MartyWidget(QWidget):
         connection_layout.addWidget(self.disconnect_button)
 
         content_layout.addLayout(connection_layout)
+
+        # Ajouter un bouton pour aller à la nouvelle page
+        #self.new_page_button = QPushButton("mapage")
+        #self.new_page_button.clicked.connect(self.show_new_page)
+        #content_layout.addWidget(self.new_page_button)
         
         # Ajouter le widget de contenu au layout principal
         main_layout.addWidget(content_widget)
         self.setLayout(main_layout)
+
+    def on_dropdown_changed(self, index):
+        sensor_position = self.dropdown.currentText()
+        color_value = self.detection.get_color_value(sensor_position)
+        self.color_label.setText(f'Valeur du capteur {sensor_position} : {color_value}')
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -138,3 +148,64 @@ class MartyWidget(QWidget):
         self.background_label.setGeometry(self.rect())
         scaled_pixmap = self.background_pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatioByExpanding)
         self.background_label.setPixmap(scaled_pixmap)
+
+    def show_new_page(self):
+        self.new_page = NewPageWidget(self.background_pixmap, self.detection)
+        self.new_page.show()
+
+class NewPageWidget(QWidget):
+    def __init__(self, background_pixmap, detection):
+        super().__init__()
+        self.setWindowTitle('Nouvelle Page')
+        self.background_pixmap = background_pixmap
+        self.detection = detection
+        self.initUI()
+
+    def initUI(self):
+        main_layout = QVBoxLayout(self)
+
+        # Ajouter un QLabel pour l'image d'arrière-plan
+        self.background_label = QLabel(self)
+        self.background_label.setPixmap(self.background_pixmap)
+        self.background_label.setScaledContents(True)
+        self.background_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.background_label.setGeometry(self.rect())
+        main_layout.addWidget(self.background_label)
+
+        # Ajouter la liste déroulante
+        dropdown_layout = QVBoxLayout()
+
+        self.dropdown_label = QLabel('Choisissez une option:')
+        dropdown_layout.addWidget(self.dropdown_label)
+
+        self.dropdown = QComboBox()
+        self.dropdown.addItems(["yellow", "red", "black", "green", "darkblue", "skyblue", "pink"])
+        self.dropdown.currentIndexChanged.connect(self.on_dropdown_changed)
+        dropdown_layout.addWidget(self.dropdown)
+
+        main_layout.addLayout(dropdown_layout)
+
+        # Assurez-vous que le layout principal n'essaie pas de se redimensionner indéfiniment
+        self.setLayout(main_layout)
+        self.setFixedSize(400, 300)  # Définir une taille fixe pour la fenêtre
+
+    def on_dropdown_changed(self, index):
+        sensor_position = self.dropdown.currentText()
+        color_value = self.detection.get_color_value(sensor_position)
+        print(f'Valeur du capteur {sensor_position} : {color_value}')  # Afficher la valeur dans la console
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.adjustBackground()
+
+    def adjustBackground(self):
+        self.background_label.setGeometry(self.rect())
+        scaled_pixmap = self.background_pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatioByExpanding)
+        self.background_label.setPixmap(scaled_pixmap)
+
+# Code pour exécuter l'application
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = MartyWidget()
+    ex.show()
+    sys.exit(app.exec())
