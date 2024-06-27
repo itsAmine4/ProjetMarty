@@ -18,7 +18,8 @@ class MartyControllerApp(MartyWidget):
         self.connect_button.clicked.connect(self.connect_to_marty)
         self.disconnect_button.clicked.connect(self.disconnect_from_marty)
         self.set_emotion_button.clicked.connect(self.set_emotion)
-
+        
+        self.droit_button.clicked.connect(self.stand_straight)
         self.forward_button.clicked.connect(self.move_forward)
         self.backward_button.clicked.connect(self.move_backward)
         self.turn_left_button.clicked.connect(self.turn_left)
@@ -56,7 +57,10 @@ class MartyControllerApp(MartyWidget):
             self.timer.stop()
             self.obstacle_timer.stop()
             self.color_timer.stop()
-
+            
+    def stand_straight(self):
+        self.movements_emotions.stand_straight()
+        
     def move_forward(self):
         self.movements_emotions.move_forward()
 

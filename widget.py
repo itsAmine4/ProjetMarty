@@ -42,6 +42,11 @@ class MartyWidget(QWidget):
         self.set_emotion_button.setIcon(QIcon('images/emotion_image.png'))
         self.set_emotion_button.setIconSize(QSize(40, 40))
         emotion_layout.addWidget(self.set_emotion_button)
+        
+        self.humeur_button = QPushButton()
+        self.humeur_button.setIcon(QIcon('images/Marty_humeur.jpg'))
+        self.humeur_button.setIconSize(QSize(40, 40))
+        emotion_layout.addWidget(self.humeur_button)
 
         content_layout.addLayout(emotion_layout)
 
@@ -60,6 +65,12 @@ class MartyWidget(QWidget):
 
         # Boutons de contrôle
         control_layout = QHBoxLayout()
+        
+        
+        self.droit_button = QPushButton()
+        self.droit_button.setIcon(QIcon('images/Marty_droit.webp'))
+        self.droit_button.setIconSize(QSize(40, 40))
+        control_layout.addWidget(self.droit_button)
 
         self.forward_button = QPushButton()
         self.forward_button.setIcon(QIcon('images/avancer.png'))
@@ -100,7 +111,7 @@ class MartyWidget(QWidget):
         self.celebrate_button.setIcon(QIcon('images/celebrer.png'))
         self.celebrate_button.setIconSize(QSize(40, 40))
         dc_layout.addWidget(self.celebrate_button)
-
+    
         content_layout.addLayout(dc_layout)
 
         # Section Connexion
@@ -113,7 +124,7 @@ class MartyWidget(QWidget):
         content_layout.addWidget(self.ip_entry)
 
         connection_layout = QHBoxLayout()
-
+        
         self.connect_button = QPushButton()
         self.connect_button.setIcon(QIcon('images/connecter.png'))
         self.connect_button.setIconSize(QSize(40, 40))
@@ -123,7 +134,7 @@ class MartyWidget(QWidget):
         self.disconnect_button.setIcon(QIcon('images/deconnecter.png'))
         self.disconnect_button.setIconSize(QSize(40, 40))
         connection_layout.addWidget(self.disconnect_button)
-
+        
         content_layout.addLayout(connection_layout)
         
         # Ajouter le widget de contenu au layout principal
