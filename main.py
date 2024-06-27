@@ -34,7 +34,7 @@ class MartyControllerApp(MartyWidget):
             QMessageBox.information(self, "Connexion", f"Connecté à Marty à {ip_address}")
 
             self.movements_emotions = MovementsEmotions(self.marty)
-            self.detection = Detection(self.marty, self.battery_label, self.obstacle_label, self.color_label)
+            self.detection = Detection(self.marty, self.battery_label, self.obstacle_label, self.color_label,)
 
             self.timer.timeout.connect(self.detection.update_sensors)
             self.timer.start(1000)
